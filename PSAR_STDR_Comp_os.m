@@ -113,7 +113,7 @@ for Comp_os_num = 1:61
     Nsample=1024;
     Do_sin1 = Do_sin';
     for j = 1:Num
-    [SNR(j),SNDR(j),SFDR(j),THD(j),ENOB(j),FLOOR_NOISE(j),P_S(j),P_ND(j),fund_ind]=FFT_TEST_MAN(Do_sin1(:,j),fs,num_H,wid,N1,En_plot,osr);
+    [SNR(j),SNDR(j),SFDR(j),THD(j),ENOB(j),FLOOR_NOISE(j),P_S(j),P_ND(j),fund_ind]=FFT_TEST_MAN(Do_sin1(:,j),fs,num_H,wid,Nsample,En_plot,osr);
     end
 
     ENOB_final(Comp_os_num) = mean(ENOB);
