@@ -3,9 +3,8 @@ clear
 % 定义ADC的基本参数
 Vref = 1;                                       % 定义基准电压为1V 
 Vcm = 0.5;                                      % 定义共模电平为0.5V
-N  = 12;                                          %总位数
-% N1 = 6;                                          % 第一级位数
-for N1 = 4:8
+N  = 12;                                          %总位数                        
+for N1 = 4:8                                        % 第一级位数
     N2 = N - N1 ;                                          % 第二级位数 
     % 定义电容失配的基本参数
     sig_c1 = 0.01;                                      % 定义单位电容的标准偏差 
@@ -47,17 +46,7 @@ for N1 = 4:8
         C_dev1(j,:) = sig_c1*sqrt(C_nor1).*randn(1,N1);          % 电容阵列中各电容的标准偏差，呈正态分布
         C_act1(j,:) = C_nor1 + C_dev1(j,:);                            % 定义实际电容由其均值和标准偏差组成
         C_dev2(j,:) = sig_c2*sqrt(C_nor2).*randn(1,N2-1);          % 电容阵列中各电容的标准偏差，呈正态分布
-        C_act2(j,:) = C_nor2 + C_dev2(j,:);                            % 定义实际电容由其均值和标准偏差组成
-        
-            D1_ramp = zeros(Num, 2^N_in);  % maxN_in based on maximum N1 + N2 + M
-            Vres_p_ramp = zeros(Num, 2^N_in);
-            Vres_n_ramp = zeros(Num, 2^N_in);
-            V_residue_ramp = zeros(Num, 2^N_in);
-            V_residue_p_ramp = zeros(Num, 2^N_in);
-            V_residue_n_ramp = zeros(Num, 2^N_in);
-            D2_ramp = zeros(Num, 2^N_in);
-            D_ramp = zeros(Num, 2^N_in);
-            Do_ramp = zeros(Num, 2^N_in);        
+        C_act2(j,:) = C_nor2 + C_dev2(j,:);                            % 定义实际电容由其均值和标准偏差组成    
         
         for i = 1:2^N_in 
 
@@ -72,15 +61,6 @@ for N1 = 4:8
             D_ramp(j,i) = D1_ramp(j,i)*2^N2 + D2_ramp(j,i);
             Do_ramp(j,i) = D_ramp(j,i)*2*Vref/(2^(N1+N2))-1;      % 输出差分信号范围[-Vref,Vref]
         end
-            D1_sin = zeros(Num, N_sin);
-            Vres_p_sin = zeros(Num, N_sin);
-            Vres_n_sin = zeros(Num, N_sin);
-            V_residue_sin = zeros(Num, N_sin);
-            V_residue_p_sin = zeros(Num, N_sin);
-            V_residue_n_sin = zeros(Num, N_sin);
-            D2_sin = zeros(Num, N_sin);
-            D_sin = zeros(Num, N_sin);
-            Do_sin = zeros(Num, N_sin);
         
         for i = 1:N_sin
 

@@ -35,7 +35,7 @@ Vip_sin = 0.5 + 0.5*sin(2*pi*fin/fclk*T1);
 Vin_sin = 0.5 - 0.5*sin(2*pi*fin/fclk*T1);
 
 
-for Comp_os_num = 1:61            % 比较器失调的个数
+for os_num = 1:61            % 比较器失调的个数
     % 电容失配的蒙特卡洛次数
     Num = 1;                                       
     
@@ -47,9 +47,9 @@ for Comp_os_num = 1:61            % 比较器失调的个数
         C_act2(j,:) = C_nor2 + C_dev2(j,:);                            % 定义实际电容由其均值和标准偏差组成
         for i = 1:2^N_in 
             % 量化斜坡信号
-            [D1_ramp(j,i),Vres_p_ramp(j,i),Vres_n_ramp(j,i)] = Coarse_sar(Vip_ramp(i), Vin_ramp(i), Vref, Vcm, N1, C_act1(j,:), C_act1(j,:) , 1, 1, 0, 0, Comp_os(Comp_os_num), 0, 0, Wda1);                  % 针对均匀分布的2N_in个电压值进行A/D转换 
+            [D1_ramp(j,i),Vres_p_ramp(j,i),Vres_n_ramp(j,i)] = Coarse_sar(Vip_ramp(i), Vin_ramp(i), Vref, Vcm, N1, C_act1(j,:), C_act1(j,:) , 1, 1, 0, 0, Comp_os(os_num), 0, 0, Wda1);                  % 针对均匀分布的2N_in个电压值进行A/D转换 
 
-            V_residue_ramp(j,i) = (Vres_n_ramp(j,i) - Vres_p_ramp(j,i)+ Amp_os )*2^N1;
+            V_residue_ramp(j,i) = (Vres_n_ramp(j,i) - Vres_p_ramp(j,i)+ Amp_os(os_num) )*2^N1;
             V_residue_p_ramp(j,i) = Vcm + V_residue_ramp(j,i)/2;
             V_residue_n_ramp(j,i) = Vcm - V_residue_ramp(j,i)/2;
 
@@ -68,9 +68,9 @@ for Comp_os_num = 1:61            % 比较器失调的个数
 
         for i = 1:N_sin
             % 量化正弦信号
-            [D1_sin(j,i),Vres_p_sin(j,i),Vres_n_sin(j,i)] = Coarse_sar(Vip_sin(i), Vin_sin(i), Vref, Vcm, N1, C_act1(j,:), C_act1(j,:) , 1, 1, 0, 0, Comp_os(Comp_os_num), 0, 0, Wda1);                  % 针对均匀分布的2N_in个电压值进行A/D转换 
+            [D1_sin(j,i),Vres_p_sin(j,i),Vres_n_sin(j,i)] = Coarse_sar(Vip_sin(i), Vin_sin(i), Vref, Vcm, N1, C_act1(j,:), C_act1(j,:) , 1, 1, 0, 0, Comp_os(os_num), 0, 0, Wda1);                  % 针对均匀分布的2N_in个电压值进行A/D转换 
 
-            V_residue_sin(j,i) = (Vres_n_sin(j,i) - Vres_p_sin(j,i)+ Amp_os )*2^N1;
+            V_residue_sin(j,i) = (Vres_n_sin(j,i) - Vres_p_sin(j,i)+ Amp_os(os_num) )*2^N1;
             V_residue_p_sin(j,i) = Vcm + V_residue_sin(j,i)/2;
             V_residue_n_sin(j,i) = Vcm - V_residue_sin(j,i)/2;
 
