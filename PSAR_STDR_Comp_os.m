@@ -5,7 +5,11 @@ Vcm = 0.5;                                      % 定义共模电平为0.5V
 N  = 12;                                          %总位数
 N1 = 5;                                          % 第一级位数
 N2 = N - N1 ;                                    % 第二级位数 
-Comp_os = (-30e-3:1e-3:30e-3);                                     % 比较器失调
+
+% 定义失调量
+Comp_os = (-30e-3:1e-3:30e-3);                   % 比较器失调
+Amp_os = 0;                                      % 运放失调
+
 % 定义电容失配的基本参数
 sig_c1 = 0;                                      % 定义单位电容的标准偏差 
 C_nor1 = 2.^[N1-1:-1:0];                            % 定义理想电容阵列, 其中默认电位电容为1 
@@ -14,6 +18,7 @@ Wda1 = 2.^[N1-1:-1:0];
 sig_c2 = 0;
 C_nor2 = 2.^[N2-2:-1:0];                        % 定义理想电容阵列, 其中默认电位电容为1 
 Wda2 = 2.^[N2-2:-1:0];
+
 % 产生斜坡信号，针对其中均匀分布的2N_in个电压值进行处理 
 M = 5;                                            %定义每个转换台阶包含的点数为2^M 
 N_in = N1 + N2 + M; 
@@ -30,15 +35,9 @@ Vip_sin = 0.5 + 0.5*sin(2*pi*fin/fclk*T1);
 Vin_sin = 0.5 - 0.5*sin(2*pi*fin/fclk*T1);
 
 
-for Comp_os_num = 1:61
+for Comp_os_num = 1:61            % 比较器失调的个数
     % 电容失配的蒙特卡洛次数
     Num = 1;                                       
-
-%     % 初始化
-%     C_dev1 = zeros(Num,N1);
-%     C_act1 = zeros(Num,N1);
-%     C_dev2 = zeros(Num,N2-1);
-%     C_act2 = zeros(Num,N2-1);
     
     % 开始转换
     for j = 1:Num
@@ -50,7 +49,7 @@ for Comp_os_num = 1:61
             % 量化斜坡信号
             [D1_ramp(j,i),Vres_p_ramp(j,i),Vres_n_ramp(j,i)] = Coarse_sar(Vip_ramp(i), Vin_ramp(i), Vref, Vcm, N1, C_act1(j,:), C_act1(j,:) , 1, 1, 0, 0, Comp_os(Comp_os_num), 0, 0, Wda1);                  % 针对均匀分布的2N_in个电压值进行A/D转换 
 
-            V_residue_ramp(j,i) = (Vres_n_ramp(j,i) - Vres_p_ramp(j,i))*2^N1;
+            V_residue_ramp(j,i) = (Vres_n_ramp(j,i) - Vres_p_ramp(j,i)+ Amp_os )*2^N1;
             V_residue_p_ramp(j,i) = Vcm + V_residue_ramp(j,i)/2;
             V_residue_n_ramp(j,i) = Vcm - V_residue_ramp(j,i)/2;
 
@@ -71,7 +70,7 @@ for Comp_os_num = 1:61
             % 量化正弦信号
             [D1_sin(j,i),Vres_p_sin(j,i),Vres_n_sin(j,i)] = Coarse_sar(Vip_sin(i), Vin_sin(i), Vref, Vcm, N1, C_act1(j,:), C_act1(j,:) , 1, 1, 0, 0, Comp_os(Comp_os_num), 0, 0, Wda1);                  % 针对均匀分布的2N_in个电压值进行A/D转换 
 
-            V_residue_sin(j,i) = (Vres_n_sin(j,i) - Vres_p_sin(j,i))*2^N1;
+            V_residue_sin(j,i) = (Vres_n_sin(j,i) - Vres_p_sin(j,i)+ Amp_os )*2^N1;
             V_residue_p_sin(j,i) = Vcm + V_residue_sin(j,i)/2;
             V_residue_n_sin(j,i) = Vcm - V_residue_sin(j,i)/2;
 
