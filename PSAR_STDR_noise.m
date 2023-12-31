@@ -5,6 +5,8 @@ Vcm = 0.5;                                      % 定义共模电平为0.5V
 N  = 12;                                          %总位数
 N1 = 5;                                          % 第一级位数
 N2 = N - N1 ;                                    % 第二级位数 
+del_ktc = 100e-6;                                % 定义kTC噪声的RMS值为100uV
+
 % 定义电容失配的基本参数
 sig_c1 = 0;                                      % 定义单位电容的标准偏差 
 C_nor1 = 2.^[N1-1:-1:0];                            % 定义理想电容阵列, 其中默认电位电容为1 
@@ -45,7 +47,7 @@ for j = 1:Num
     C_act2(j,:) = C_nor2 + C_dev2(j,:);                            % 定义实际电容由其均值和标准偏差组成
     for i = 1:2^N_in 
         % 量化斜坡信号
-        [D1_ramp(j,i),Vres_p_ramp(j,i),Vres_n_ramp(j,i)] = Coarse_sar(Vip_ramp(i), Vin_ramp(i), Vref, Vcm, N1, C_act1(j,:), C_act1(j,:) , 1, 1, 0, 0, 0, 0, 0, Wda1);                  % 针对均匀分布的2N_in个电压值进行A/D转换 
+        [D1_ramp(j,i),Vres_p_ramp(j,i),Vres_n_ramp(j,i)] = Coarse_sar(Vip_ramp(i), Vin_ramp(i), Vref, Vcm, N1, C_act1(j,:), C_act1(j,:) , 1, 1, 0, 0, 0, 0, del_ktc, Wda1);                  % 针对均匀分布的2N_in个电压值进行A/D转换 
         
         V_residue_ramp(j,i) = (Vres_n_ramp(j,i) - Vres_p_ramp(j,i))*2^N1;
         V_residue_p_ramp(j,i) = Vcm + V_residue_ramp(j,i)/2;
