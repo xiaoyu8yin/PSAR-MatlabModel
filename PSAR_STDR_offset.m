@@ -102,7 +102,7 @@ for os_num = 1:Num_os            % 比较器失调的个数
 
     DNL_std = std(DNL,0,2);
 
-    DNL_final(Comp_os_num) = mean(DNL_std);
+    DNL_final(os_num) = mean(DNL_std);
 
     % FFT 计算ENOB
     num_H=5;
@@ -116,5 +116,5 @@ for os_num = 1:Num_os            % 比较器失调的个数
     [SNR(j),SNDR(j),SFDR(j),THD(j),ENOB(j),FLOOR_NOISE(j),P_S(j),P_ND(j),fund_ind]=FFT_TEST_MAN(Do_sin1(:,j),fs,num_H,wid,Nsample,En_plot,osr);
     end
 
-    ENOB_final(Comp_os_num) = mean(ENOB);
+    ENOB_final(os_num) = mean(ENOB);
 end
