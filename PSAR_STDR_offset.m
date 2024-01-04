@@ -7,9 +7,9 @@ N1 = 5;                                          % 第一级位数
 N2 = N - N1 ;                                    % 第二级位数 
 
 % 定义失调量
-Num_os = 3;                                      % 失调仿真个数
-Comp_os = linespace(-30e-3,30e-3,Num_os);                   % 比较器失调
-Amp_os =  linespace(0,0,Num_os);                                      % 运放失调
+Num_os = 61;                                      % 失调仿真个数
+Comp_os = linspace(0,0,Num_os);                   % 比较器失调
+Amp_os =  linspace(-1e-3,1e-3,Num_os);          % 运放失调
 
 % 定义电容失配的基本参数
 sig_c1 = 0;                                      % 定义单位电容的标准偏差 
