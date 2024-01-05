@@ -7,11 +7,11 @@ N1 = 5;                                          % 第一级位数
 N2 = N - N1 ;                                    % 第二级位数 
 
 % 定义失调量
-Num_os = 1;                                      % 失调仿真个数
+Num_os = 61;                                      % 失调仿真个数
 
-Comp_os = linspace(0,0,Num_os);                   % 比较器失调
+Comp_os = linspace(-30e-3,30e-3,Num_os);                   % 比较器失调
 
-Amp_os =  linspace(-10e-3,-10e-3,Num_os);          % 运放失调
+Amp_os =  linspace(-30e-3,30e-3,Num_os);          % 运放失调
 
 
 
@@ -64,14 +64,6 @@ for os_num = 1:Num_os            % 比较器失调的个数
             D_ramp(j,i) = D1_ramp(j,i)*2^N2 + D2_ramp(j,i);
             Do_ramp(j,i) = D_ramp(j,i)*2*Vref/(2^(N1+N2))-1;      % 输出差分信号范围[-Vref,Vref]
         end
-
- %       画余差曲线
-         hold on
-        plot(Vip_ramp-Vin_ramp, V_residue_ramp);
-        xlabel('V_{idiff}'); % 添加横坐标标识
-        ylabel('V_{res}'); % 添加纵坐标标识
-        title('Residue Characteristic Curve'); % 添加标题
-         hold off
 
         for i = 1:N_sin
             % 量化正弦信号
