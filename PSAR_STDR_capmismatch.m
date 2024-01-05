@@ -4,7 +4,7 @@ clear
 Vref = 1;                                       % 定义基准电压为1V 
 Vcm = 0.5;                                      % 定义共模电平为0.5V
 N  = 12;                                          %总位数
-N1 = 5;                                          % 第一级位数
+N1 = 6;                                          % 第一级位数
 N2 = N - N1 ;                                    % 第二级位数 
 
 % 定义电容失配的基本参数
@@ -37,14 +37,14 @@ Vin_sin = 0.5 - 0.5*sin(2*pi*fin/fclk*T1);
 Num = 1;                                       
 
 % 开始转换
-for k = 1:length(C_act1)
+for k = 1:6
     for j = 1:Num
         C_dev1(j,:) = sig_c1*sqrt(C_nor1).*randn(1,N1);          % 电容阵列中各电容的标准偏差，呈正态分布
         C_act1(j,:) = C_nor1 + C_dev1(j,:) + C_;                            % 定义实际电容由其均值和标准偏差组成
         C_act1(j,k) = C_act1(j,k) * 1.01;                              % Increase each element by 1%
         C_dev2(j,:) = sig_c2*sqrt(C_nor2).*randn(1,N2-1);          % 电容阵列中各电容的标准偏差，呈正态分布
         C_act2(j,:) = C_nor2 + C_dev2(j,:);                            % 定义实际电容由其均值和标准偏差组成
-        C_act2(j,k) = C_act2(j,k) * 1.01;                              % Increase each element by 1%
+        %C_act2(j,k) = C_act2(j,k) * 1.01;                              % Increase each element by 1%
 
         for i = 1:2^N_in 
             % 量化斜坡信号
