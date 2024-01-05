@@ -34,17 +34,18 @@ Vin_sin = 0.5 - 0.5*sin(2*pi*fin/fclk*T1);
 
 
 % 电容失配的蒙特卡洛次数
-Num = 1;                                       
+Num = 1;  
 
 % 开始转换
 for k = 1:6
     for j = 1:Num
         C_dev1(j,:) = sig_c1*sqrt(C_nor1).*randn(1,N1);          % 电容阵列中各电容的标准偏差，呈正态分布
-        C_act1(j,:) = C_nor1 + C_dev1(j,:) + C_;                            % 定义实际电容由其均值和标准偏差组成
-        C_act1(j,k) = C_act1(j,k) * 1.01;                              % Increase each element by 1%
+        C_act1(j,:) = C_nor1 + C_dev1(j,:) ;                            % 定义实际电容由其均值和标准偏差组成
+%         C_act1(j,k) = C_act1(j,k) * 1.01;                              % Increase each element by 1%
         C_dev2(j,:) = sig_c2*sqrt(C_nor2).*randn(1,N2-1);          % 电容阵列中各电容的标准偏差，呈正态分布
         C_act2(j,:) = C_nor2 + C_dev2(j,:);                            % 定义实际电容由其均值和标准偏差组成
-        %C_act2(j,k) = C_act2(j,k) * 1.01;                              % Increase each element by 1%
+        C_act2(j,k) = C_act2(j,k) * 1.01;                              % Increase each element by 1%
+        C_act2
 
         for i = 1:2^N_in 
             % 量化斜坡信号
@@ -101,10 +102,10 @@ for k = 1:6
     En_plot=0;
     osr=1;
     fs=100*10^6;
-    N1=1024;
+    Nsample=1024;
     Do_sin1 = Do_sin';
     for j = 1:Num
-    [SNR(j),SNDR(j),SFDR(j),THD(j),ENOB(j),FLOOR_NOISE(j),P_S(j),P_ND(j),fund_ind]=FFT_TEST_MAN(Do_sin1(:,j),fs,num_H,wid,N1,En_plot,osr);
+    [SNR(j),SNDR(j),SFDR(j),THD(j),ENOB(j),FLOOR_NOISE(j),P_S(j),P_ND(j),fund_ind]=FFT_TEST_MAN(Do_sin1(:,j),fs,num_H,wid,Nsample,En_plot,osr);
     end
 
     ENOB_final(k) = mean(ENOB)
